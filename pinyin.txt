@@ -184,7 +184,6 @@ lue
 lun
 luo
 lv
-lve
 ma
 mai
 man
@@ -224,7 +223,6 @@ niu
 nong
 nu
 nuan
-nue
 nuo
 nv
 nve
@@ -259,7 +257,6 @@ qiong
 qiu
 qu
 quan
-que
 qun
 qve
 ran
@@ -367,7 +364,6 @@ yu
 yuan
 yue
 yun
-yve
 za
 zai
 zan
