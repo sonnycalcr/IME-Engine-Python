@@ -13,6 +13,9 @@ nue 这个全拼不应该存在，应该是 nve，也就是 nüe
 同理，还有 lue 和 lve 之间的问题
 
 j q x 要挖掉鱼的两点
+
+TODO:
+还有，我们小时候读的 en 的嗯字，现在被改成了鼻音的 ng，这个太特别了，以后可以单独加
 """
 
 import os.path
@@ -120,20 +123,4 @@ class XiaoheShuangpin:
 
 if __name__ == "__main__":
     xiaohe_shuangpin = XiaoheShuangpin()
-    # print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("ul"))
-    cnt = 0
-    ulpb_cnt = 0
-    ul_set = set()
-    for each_quanpin in xiaohe_shuangpin.quanpin_tbl:
-        # print(each_quanpin, end=": ")
-        cur_ul = xiaohe_shuangpin.cvt_single_pinyin_to_sp(each_quanpin)
-        # print(cur_ul)
-        cnt += 1
-        if (cur_ul not in ul_set):
-            ul_set.add(cur_ul)
-            ulpb_cnt += 1
-        else:
-            print(each_quanpin, end=": ")
-            print(cur_ul)
-    print(cnt)
-    print(ulpb_cnt)
+    print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("ul"))
