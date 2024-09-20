@@ -68,7 +68,7 @@ class XiaoheShuangpin:
         self.init_quanpin_tbl()
 
     def init_quanpin_tbl(self):
-        pinyin_file_path = os.path.join(os.path.dirname(__file__), "./pinyin.txt")
+        pinyin_file_path = os.path.join(os.path.dirname(__file__), "../assets/pinyin.txt")
         with open(pinyin_file_path, "r") as file:
             all_lines = file.readlines()
             for each_line in all_lines:
@@ -121,6 +121,13 @@ class XiaoheShuangpin:
             if (sm + each_ym) in self.quanpin_tbl:
                 res.append(sm + each_ym)
         return res
+
+    def pinyin_segmentation(self, sp_str: str) -> str: 
+        # 正向最大划分
+        quanpin_str = self.cvt_single_sp_to_pinyin(sp_str)
+        # TODO: 待实现拼音分割
+        return quanpin_str[0]
+
 
 
 if __name__ == "__main__":
