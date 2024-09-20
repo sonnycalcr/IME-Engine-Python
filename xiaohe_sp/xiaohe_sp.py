@@ -79,6 +79,8 @@ class XiaoheShuangpin:
     def cvt_single_pinyin_to_sp(self, pinyin: str) -> str:
         """
         把单个拼音(全拼)转换为小鹤双拼
+
+        注意：目前是一对一
         """
         if pinyin in self.zero_sm_keymaps.keys():
             return self.zero_sm_keymaps[pinyin]
