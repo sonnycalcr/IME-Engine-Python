@@ -2,6 +2,8 @@
 小鹤双拼 + 辅助码
 """
 
+import os.path
+
 
 class XiaoheShuangpin:
     def __init__(self) -> None:
@@ -43,37 +45,21 @@ class XiaoheShuangpin:
             "iao": "n",
             "ian": "m",
         }
-        self.quanpin_table = {
-            "i": {"1": "i"},
-            "u": {"1": "u"},
-            "v": {"1": "v"},
-            "a": {"1": "a", "ai": "i", "an": "n", "ang": "ng", "ao": "o"},
-            "b": {"1": "b", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ian": "ian", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "o": "o", "u": "u", "un": "un"},
-            "c": {"1": "c", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo"},
-            "ch": {"1": "ch", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "ua": "ua", "uai": "uai", "uan": "uan", "uang": "uang", "ui": "ui", "un": "un", "uo": "uo"},
-            "d": {"1": "d", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "en": "en", "ei": "ei", "eng": "eng", "i": "i", "ia": "ia", "ian": "ian", "iao": "iao", "ie": "ie", "ing": "ing", "iu": "iu", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo"},
-            "e": {"1": "e", "ei": "i", "en": "n", "eng": "ng", "er": "r"},
-            "f": {"1": "f", "a": "a", "an": "an", "ang": "ang", "ei": "ei", "en": "en", "eng": "eng", "iao": "iao", "o": "o", "ou": "ou", "u": "u"},
-            "g": {"1": "g", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "ua": "ua", "uai": "uai", "uan": "uan", "uang": "uang", "ui": "ui", "un": "un", "uo": "uo"},
-            "h": {"1": "h", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "ua": "ua", "uai": "uai", "uan": "uan", "uang": "uang", "ui": "ui", "un": "un", "uo": "uo"},
-            "j": {"1": "j", "i": "i", "ia": "ia", "ian": "ian", "iang": "iang", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "iong": "iong", "iu": "iu", "u": "u", "uan": "uan", "ue": "ue", "un": "un", "v": "u", "van": "uan", "ve": "ue", "vn": "un"},
-            "k": {"1": "k", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "en": "en", "eng": "eng", "ei": "ei", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "ua": "ua", "uai": "uai", "uan": "uan", "uang": "uang", "ui": "ui", "un": "un", "uo": "uo"},
-            "l": {"1": "l", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "eng": "eng", "i": "i", "ia": "ia", "ian": "ian", "iang": "iang", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "iu": "iu", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "v": "v", "uan": "uan", "ue": "ue", "un": "un", "uo": "uo", "ve": "ue"},
-            "m": {"1": "m", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ian": "ian", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "iu": "iu", "o": "o", "ou": "ou", "u": "u"},
-            "n": {"1": "n", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ian": "ian", "iang": "iang", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "iu": "iu", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "v": "v", "uan": "uan", "ue": "ue", "uo": "uo", "un": "un", "ve": "ue"},
-            "o": {"1": "o", "ou": "u"},
-            "p": {"1": "p", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ian": "ian", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "o": "o", "ou": "ou", "u": "u"},
-            "q": {"1": "q", "i": "i", "ia": "ia", "ian": "ian", "iang": "iang", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "iong": "iong", "iu": "iu", "u": "u", "uan": "uan", "ue": "ue", "un": "un", "van": "uan", "ve": "ue", "vn": "un", "v": "u"},
-            "r": {"1": "r", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo"},
-            "s": {"1": "s", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo"},
-            "sh": {"1": "sh", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ou": "ou", "u": "u", "ua": "ua", "uai": "uai", "uan": "uan", "uang": "uang", "ui": "ui", "un": "un", "uo": "uo"},
-            "t": {"1": "t", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "eng": "eng", "ei": "ei", "i": "i", "ian": "ian", "iao": "iao", "ie": "ie", "ing": "ing", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo"},
-            "w": {"1": "w", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ei": "ei", "en": "en", "eng": "eng", "o": "o", "u": "u"},
-            "x": {"1": "x", "i": "i", "ia": "ia", "ian": "ian", "iang": "iang", "iao": "iao", "ie": "ie", "in": "in", "ing": "ing", "iong": "iong", "iu": "iu", "u": "u", "uan": "uan", "un": "un", "ue": "ue", "van": "uan", "ve": "ue", "vn": "un", "v": "u"},
-            "y": {"1": "y", "a": "a", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "i": "i", "in": "in", "ing": "ing", "o": "o", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ue": "ue", "un": "un", "v": "u", "van": "uan", "ve": "ue", "vn": "un"},
-            "z": {"1": "z", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo"},
-            "zh": {"1": "zh", "a": "a", "ai": "ai", "an": "an", "ang": "ang", "ao": "ao", "e": "e", "ei": "ei", "en": "en", "eng": "eng", "i": "i", "ong": "ong", "on": "ong", "ou": "ou", "u": "u", "uan": "uan", "ui": "ui", "un": "un", "uo": "uo", "ua": "ua", "uai": "uai", "uang": "uang"}
-        }
+        self.quanpin_tbl = set()
+        self.init_quanpin_tbl()
+
+    def init_quanpin_tbl(self):
+        pinyin_file_path = os.path.join(os.path.dirname(__file__), "./pinyin.txt")
+        with open(pinyin_file_path, "r") as file:
+            all_lines = file.readlines()
+            for each_line in all_lines:
+                cur_line = each_line.strip()
+                if cur_line not in self.quanpin_tbl:
+                    self.quanpin_tbl.add(cur_line)
+                else:
+                    print(cur_line)
+        print(len(self.quanpin_tbl))
+
 
     def cvt_single_pinyin_to_sp(self, pinyin: str) -> str:
         """
