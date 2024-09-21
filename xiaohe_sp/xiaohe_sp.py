@@ -123,13 +123,38 @@ class XiaoheShuangpin:
         return res
 
     def pinyin_segmentation(self, sp_str: str) -> str: 
-        # 正向最大划分
-        quanpin_str = self.cvt_single_sp_to_pinyin(sp_str)
-        # TODO: 待实现拼音分割
-        return quanpin_str[0]
+        """
+        切割双拼字符串，使用单引号 ' 作为切割符号
+        使用正向最大划分来进行切割，也可以说是贪心法
+        """
+        if len(sp_str) == 1:
+            return sp_str
+        res = ''
+        range_start = 0
+        while range_start < len(sp_str):
+            if (range_start + 2) <= len(sp_str):
+                # 先切割两个字符看看
+                cur_sp = sp_str[range_start:range_start + 2]
+                if self.cvt_single_sp_to_pinyin(cur_sp)[0] in self.quanpin_tbl:
+                    res = res + "'" + cur_sp
+                    range_start += 2
+                else:
+                    res = res + "'" + cur_sp[0]
+                    range_start += 1
+            else:
+                res = res + "'" + sp_str[-1]
+                range_start += 1
+            
+        return res.strip("'")
 
 
 
 if __name__ == "__main__":
     xiaohe_shuangpin = XiaoheShuangpin()
     print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("ul"))
+    print(xiaohe_shuangpin.pinyin_segmentation("ulpb"))
+    print(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene"))
+    print(xiaohe_shuangpin.pinyin_segmentation("nh"))
+    print(xiaohe_shuangpin.pinyin_segmentation("nih"))
+
+
