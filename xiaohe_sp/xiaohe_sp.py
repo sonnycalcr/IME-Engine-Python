@@ -25,8 +25,10 @@ class XiaoheShuangpin:
     def __init__(self) -> None:
         # 声母映射
         self.sm_keymaps = {"sh": "u", "ch": "i", "zh": "v"}
+        self.sm_keymaps_reserved = {v: k for k, v in self.sm_keymaps.items()}
         # 零声母映射
-        self.zero_sm_keymaps = {"a": "aa", "ai": "ai", "ao": "ao", "ang": "ah", "e": "ee", "ei": "ei", "en": "en", "eng":  "eg", "er": "er", "o": "oo", "ou": "ou"}
+        self.zero_sm_keymaps = {"a": "aa", "ai": "ai", "ao": "ao", "ang": "ah", "e": "ee",
+                                "ei": "ei", "en": "en", "eng": "eg", "er": "er", "o": "oo", "ou": "ou"}
         self.zero_sm_keymaps_reversed = {v: k for k, v in self.zero_sm_keymaps.items()}
         # 韵母映射
         self.ym_keymaps = {
@@ -122,7 +124,7 @@ class XiaoheShuangpin:
                 res.append(sm + each_ym)
         return res
 
-    def pinyin_segmentation(self, sp_str: str) -> str: 
+    def pinyin_segmentation(self, sp_str: str) -> str:
         """
         切割双拼字符串，使用单引号 ' 作为切割符号
         使用正向最大划分来进行切割，也可以说是贪心法
@@ -144,17 +146,39 @@ class XiaoheShuangpin:
             else:
                 res = res + "'" + sp_str[-1]
                 range_start += 1
-            
+
         return res.strip("'")
 
+    def quanpin_segmentation_from_sp(self, sp_seg_str: str) -> str:
+        """
+        将切割好的双拼字符串转换为全拼
+        """
+        split_sp_seg = sp_seg_str.split("'")
+        res = ""
+        for single_sp in split_sp_seg:
+            if len(single_sp) == 2:
+                res = res + "'" + self.cvt_single_sp_to_pinyin(single_sp)[0]
+            else:
+                if single_sp in self.sm_keymaps:
+                    res = res + "'" + self.sm_keymaps_reserved[single_sp]
+                else:
+                    res = res + "'" + single_sp
+        res = res.strip("'")
+        return res
 
 
 if __name__ == "__main__":
+    # test
     xiaohe_shuangpin = XiaoheShuangpin()
+    # 双拼转全拼测试
     print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("ul"))
+    # 双拼切割分词测试
     print(xiaohe_shuangpin.pinyin_segmentation("ulpb"))
     print(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene"))
     print(xiaohe_shuangpin.pinyin_segmentation("nh"))
     print(xiaohe_shuangpin.pinyin_segmentation("nih"))
-
-
+    # 双拼分词转全拼分词测试
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("ulpb")))
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene")))
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("nh")))
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("nih")))
