@@ -122,6 +122,8 @@ class XiaoheShuangpin:
         for each_ym in ym_list:
             if (sm + each_ym) in self.quanpin_tbl:
                 res.append(sm + each_ym)
+        if len(res) == 0: # 无法转换成全拼
+            res.append("error")
         return res
 
     def pinyin_segmentation(self, sp_str: str) -> str:
@@ -159,7 +161,7 @@ class XiaoheShuangpin:
             if len(single_sp) == 2:
                 res = res + "'" + self.cvt_single_sp_to_pinyin(single_sp)[0]
             else:
-                if single_sp in self.sm_keymaps:
+                if single_sp in self.sm_keymaps_reserved:
                     res = res + "'" + self.sm_keymaps_reserved[single_sp]
                 else:
                     res = res + "'" + single_sp
@@ -177,8 +179,14 @@ if __name__ == "__main__":
     print(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene"))
     print(xiaohe_shuangpin.pinyin_segmentation("nh"))
     print(xiaohe_shuangpin.pinyin_segmentation("nih"))
+    print(xiaohe_shuangpin.pinyin_segmentation("v"))
+    print(xiaohe_shuangpin.pinyin_segmentation("i"))
+    print(xiaohe_shuangpin.pinyin_segmentation("u"))
     # 双拼分词转全拼分词测试
     print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("ulpb")))
     print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene")))
     print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("nh")))
     print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("nih")))
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("v")))
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("i")))
+    print(xiaohe_shuangpin.quanpin_segmentation_from_sp(xiaohe_shuangpin.pinyin_segmentation("u")))
