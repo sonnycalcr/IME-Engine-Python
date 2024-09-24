@@ -8,6 +8,7 @@ import sqlite3
 from typing import Optional, Any
 import sys
 import os.path
+import re
 
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../")))
@@ -25,6 +26,11 @@ class Quanpin:
 
     def __enter__(self) -> 'Quanpin':
         self.conn = sqlite3.connect(self.db_path)
+
+        def regexp(expr, item):
+            reg = re.compile(expr)
+            return reg.search(item) is not None
+        self.conn.create_function("REGEXP", 2, regexp)  # sqlite 原生不支持正则
         return self
 
     def __exit__(self, exc_type: Optional[type], exc_value: Optional[Exception], traceback: Optional[Any]) -> None:
@@ -62,11 +68,11 @@ class Quanpin:
         elif self._is_pure_quanpin_(pinyin_str, sp_str):
             sql_str = """select key, jp, value, weight from quanpintbl where key = ? order by weight desc limit 40"""
             cursor = self.conn.cursor()
-            cursor.execute(sql_str, (sp_str,))
+            cursor.execute(sql_str, (pinyin_str,))
             results = cursor.fetchall()
             return results
         else:
-            sql_str = """select key, jp, value, weight from quanpintbl where jp = ? and key like ? order by weight desc limit 40"""
+            sql_str = """select key, jp, value, weight from quanpintbl where jp = ? and key REGEXP ? order by weight desc limit 40"""
             jp_sql_var = self._extract_jp_(pinyin_str)
             fuzzy_var = ""
             split_quanpin = pinyin_str.split("'")
@@ -74,8 +80,30 @@ class Quanpin:
                 if single_pinyin in self.xiaohe_sp_helper.quanpin_tbl:
                     fuzzy_var = fuzzy_var + "'" + single_pinyin
                 else:  # 由双拼切割而来的，这里肯定是一个声母
-                    fuzzy_var = fuzzy_var + "'" + single_pinyin + "_%%%"  # 单字符/双字符声母的最大韵母长度都是 4
+                    fuzzy_var = fuzzy_var + "'" + single_pinyin + "[a-z][a-z]?[a-z]?[a-z]?"  # 单字符/双字符声母的最大韵母长度都是 4
+            fuzzy_var = fuzzy_var.strip("'")
             cursor = self.conn.cursor()
             cursor.execute(sql_str, (jp_sql_var, fuzzy_var,))
             results = cursor.fetchall()
             return results
+
+
+if __name__ == "__main__":
+    with Quanpin() as quanpin:
+        # pure jp test
+        results = quanpin.query_words_limit_40("j'k", "j'k")
+        print(results)
+        results = quanpin.query_words_limit_40("j'j", "j'j")
+        print(results)
+        results = quanpin.query_words_limit_40("j'j'k", "j'j'k")
+        print(results)
+        # pure quanpin test
+        results = quanpin.query_words_limit_40("ni'hao", "ni'hc")
+        print(results)
+        results = quanpin.query_words_limit_40("bai'jing'yuan", "bd'jk'yr")
+        print(results)
+        # 更一般的情况
+        results = quanpin.query_words_limit_40("j'ji'ka", "j'ji'ka")
+        print(results)
+        results = quanpin.query_words_limit_40("j'jia'jia", "j'jx'jx")
+        print(results)
