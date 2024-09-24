@@ -1,5 +1,9 @@
 # About
 
+施工中🚧🤺🏗🤺🤺🤺~
+
+![](https://i.postimg.cc/Y7DXsD5H/image.png)
+
 先使用 Python 来给输入法作一个前置性的试探。
 
 拼音来源：<https://blog.csdn.net/Likianta/article/details/87871183>。
