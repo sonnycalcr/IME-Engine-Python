@@ -11,12 +11,16 @@ from xiaohe_sp.xiaohe_sp import XiaoheShuangpin
 from quanpin.quanpin import Quanpin
 
 stdscr = curses.initscr()
-stdscr.leaveok(False)
+curses.curs_set(0) # 直接把光标给隐藏掉
+stdscr.leaveok(False)  # 防止闪烁，但是似乎无法完全避免
+stdscr.idcok(False)
+stdscr.idlok(False)
 cloud_api_tool = CloudinputApi()
 xiaohe_sp_tool = XiaoheShuangpin()
 
 if __name__ == "__main__":
     pinyin_str = ""
+    han_str = ""  # 汉字
     with Quanpin() as quanpin_tool:
         while True:
             cur_char = readchar.readchar()
@@ -25,9 +29,9 @@ if __name__ == "__main__":
             elif cur_char == readchar.key.BACKSPACE:
                 if len(pinyin_str) > 0:
                     pinyin_str = pinyin_str[:-1]
-            stdscr.clrtobot()  # 清除光标之后的所有内容
-            stdscr.refresh()
-            stdscr.addstr(0, 0, pinyin_str)
+
+            stdscr.erase()
+            stdscr.addstr(0, 0, pinyin_str + "⎸") # 
             sp_str = xiaohe_sp_tool.pinyin_segmentation(pinyin_str)
             quanpin_str = xiaohe_sp_tool.quanpin_segmentation_from_sp(sp_str)
             stdscr.addstr(1, 0, "双拼：" + sp_str)
@@ -40,9 +44,8 @@ if __name__ == "__main__":
                 for i in range(range_len):
                     candidate_list[i] = query_results[i]
                     stdscr.addstr(3 + i, 0, str(i + 1) + ". " + str(candidate_list[i][2]))
-            
-            stdscr.move(0, len(pinyin_str))  # 清除光标所在行的光标后面所有的内容
-            stdscr.clrtoeol()
+
+            stdscr.move(0, len(pinyin_str))
             stdscr.refresh()
             if (cur_char == readchar.key.CTRL_C):
                 break
