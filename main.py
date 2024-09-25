@@ -42,8 +42,8 @@ async def main():
             stdscr.addstr(0, 0, han_str + pinyin_str + "⎸")
             sp_str = xiaohe_sp_tool.pinyin_segmentation(pinyin_str)
             quanpin_str = xiaohe_sp_tool.quanpin_segmentation_from_sp(sp_str)
-            stdscr.addstr(1, 0, "双拼：" + sp_str)
-            stdscr.addstr(2, 0, "全拼：" + quanpin_str)
+            stdscr.addstr(1, 0, "小鹤双拼：" + sp_str)
+            stdscr.addstr(2, 0, "拼音全拼：" + quanpin_str)
 
             if len(pinyin_str) > 0:
                 if query_task and not query_task.done():

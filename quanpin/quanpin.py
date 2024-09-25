@@ -15,9 +15,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "../"
 
 from xiaohe_sp.xiaohe_sp import XiaoheShuangpin
 
+default_db_path = os.path.join(os.path.dirname(__file__), "../assets/imeciku.db")
 
 class Quanpin:
-    def __init__(self, db_path: str = "/home/sonnycalcr/EDisk/PyCodes/IMECodes/FanyDictForIME/makecikudb/quanpindb/makedb/out/imeciku.db") -> None:
+    def __init__(self, db_path: str = default_db_path) -> None:
         self.db_path: str = db_path
         self.conn: sqlite3.Connection
         self.singlechar_zero_sms = ["a", "e", "o"]  # 单个字符的零声母
