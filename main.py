@@ -29,6 +29,8 @@ async def main():
     pinyin_str = ""
     han_str = ""  # 汉字
     query_task = None
+    stdscr.addstr(0, 0, "⎸")
+    stdscr.refresh()
     with Quanpin() as quanpin_tool:
         while True:
             cur_char = readchar.readchar()
