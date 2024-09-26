@@ -174,6 +174,9 @@ if __name__ == "__main__":
     xiaohe_shuangpin = XiaoheShuangpin()
     # 双拼转全拼测试
     print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("ul"))
+    print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("qt"))
+    print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("xt"))
+    print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("lt"))
     # 双拼切割分词测试
     print(xiaohe_shuangpin.pinyin_segmentation("ulpb"))
     print(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene"))

@@ -180,7 +180,7 @@ long
 lou
 lu
 luan
-lue
+lve
 lun
 luo
 lv
@@ -258,7 +258,7 @@ qiu
 qu
 quan
 qun
-qve
+que
 ran
 rang
 rao
