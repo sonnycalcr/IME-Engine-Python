@@ -71,11 +71,11 @@ async def ime_task(queue):
                 stdscr.addstr(0, 0, han_str + pinyin_str + "⎸")
                 sp_str = xiaohe_sp_tool.pinyin_segmentation(pinyin_str)
                 quanpin_str = xiaohe_sp_tool.quanpin_segmentation_from_sp(sp_str)
-                stdscr.addstr(1, 0, "小鹤双拼：" + sp_str)
-                stdscr.addstr(2, 0, "拼音全拼：" + quanpin_str)
                 if len(pinyin_str) > 0:
                     if query_task and not query_task.done():
                         query_task.cancel()
+                    stdscr.addstr(1, 0, "小鹤双拼：" + sp_str)
+                    stdscr.addstr(2, 0, "拼音全拼：" + quanpin_str)
                     query_results = quanpin_tool.query_words_limit_40(quanpin_str, sp_str)
                     range_len = 8 if len(query_results) > 8 else len(query_results)
                     candidate_list = ["" for _ in range(8)]  # 先清空一下
@@ -95,9 +95,6 @@ async def ime_task(queue):
                     stdscr.addstr(0, 0, han_str + pinyin_str + "⎸")
                     sp_str = xiaohe_sp_tool.pinyin_segmentation(pinyin_str)
                     quanpin_str = xiaohe_sp_tool.quanpin_segmentation_from_sp(sp_str)
-                    stdscr.addstr(1, 0, "小鹤双拼：" + sp_str)
-                    stdscr.addstr(2, 0, "拼音全拼：" + quanpin_str)
-                    # stdscr.addstr(3, 0, "1. " + '  ')
                     stdscr.refresh()
                 elif query_task and query_task.done():
                     cloud_result = query_task.result()
@@ -106,7 +103,7 @@ async def ime_task(queue):
                     stdscr.addstr(0, 0, han_str + pinyin_str + "⎸")
                     stdscr.addstr(1, 0, "小鹤双拼：" + sp_str)
                     stdscr.addstr(2, 0, "拼音全拼：" + quanpin_str)
-                    stdscr.addstr(3, 0, "1. " + str(cloud_result) + " ")
+                    stdscr.addstr(3, 0, "1. " + (str(cloud_result) if str(cloud_result) != " " else "") + " ")
                     for i in range(range_len):
                         stdscr.addstr(4 + i, 0, str(i + 2) + ". " + str(candidate_list[i][2]))
                     stdscr.refresh()
