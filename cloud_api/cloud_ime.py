@@ -25,7 +25,8 @@ class CloudinputApi:
                             self.flag = 0
                             text = await response.text()
                             try:
-                                return json.loads(text)
+                                res = json.loads(text)
+                                return res
                             except json.JSONDecodeError:
                                 print("Failed to decode JSON")
                                 return text
@@ -36,6 +37,27 @@ class CloudinputApi:
         return None
 
 
+cloud_input_api = CloudinputApi()
+
+
+async def fetch_cloud_results(quanpin_str: str):
+    try:
+        results = await cloud_input_api.get(quanpin_str)
+        if results['errno'] != '0':  # pyright: ignore
+            return " "
+        return results["result"][0][0][0]  # pyright: ignore
+    except asyncio.CancelledError:
+        return []
+
+
+async def fetch_cloud_results_task_test(quanpin_str: str):
+    query_task = asyncio.create_task(fetch_cloud_results(quanpin_str))
+    await asyncio.sleep(1)
+    if query_task and query_task.done():
+        res = query_task.result()
+        print("what: ", str(res))
+
+
 if __name__ == "__main__":
     # 测试
     cloud_input_api = CloudinputApi()
@@ -44,3 +66,7 @@ if __name__ == "__main__":
     print(asyncio.run(cloud_input_api.get("yun'yuan")))
     print(asyncio.run(cloud_input_api.get("dong'cao")))
     print(asyncio.run(cloud_input_api.get("dong'yuan")))
+    print(asyncio.run(cloud_input_api.get("nimabinimasile")))
+    print(asyncio.run(cloud_input_api.get("nimageshabidongxi")))
+    print(asyncio.run(fetch_cloud_results("dong'yuan")))
+    asyncio.run(fetch_cloud_results_task_test("dong'yuan"))
