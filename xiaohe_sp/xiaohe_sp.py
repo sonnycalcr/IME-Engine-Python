@@ -27,7 +27,7 @@ class XiaoheShuangpin:
         self.sm_keymaps = {"sh": "u", "ch": "i", "zh": "v"}
         self.sm_keymaps_reserved = {v: k for k, v in self.sm_keymaps.items()}
         # 零声母映射
-        self.zero_sm_keymaps = {"a": "aa", "ai": "ai", "ao": "ao", "ang": "ah", "e": "ee",
+        self.zero_sm_keymaps = {"a": "aa", "ai": "ai", "an": "an", "ao": "ao", "ang": "ah", "e": "ee",
                                 "ei": "ei", "en": "en", "eng": "eg", "er": "er", "o": "oo", "ou": "ou"}
         self.zero_sm_keymaps_reversed = {v: k for k, v in self.zero_sm_keymaps.items()}
         # 韵母映射
@@ -177,8 +177,10 @@ if __name__ == "__main__":
     print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("qt"))
     print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("xt"))
     print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("lt"))
+    print(xiaohe_shuangpin.cvt_single_sp_to_pinyin("an"))
     # 双拼切割分词测试
     print(xiaohe_shuangpin.pinyin_segmentation("ulpb"))
+    print(xiaohe_shuangpin.pinyin_segmentation("niuiuv"))
     print(xiaohe_shuangpin.pinyin_segmentation("ulpbuiufmene"))
     print(xiaohe_shuangpin.pinyin_segmentation("nh"))
     print(xiaohe_shuangpin.pinyin_segmentation("nih"))
